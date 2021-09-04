@@ -1,0 +1,23 @@
+<!-- base.html을 상속하기 위한 extends 문과 block content로 감싸준다. -->
+{% extends 'base.html' %}
+
+{% block content%}
+<!-- nav바에 안가려지기위한 br 태그 -->
+<br/>
+<br/>
+<!-- get은 주소에 담아서 데이터 전송하고 , post 는 전송하는 헤더에 담아서 전송 (따라서 볼수 없다. - 보안측면에서 우수)
+글 작성과 같은 것은 무적권 post 방식을 이용 //notion 참고  enctype은 전송하는 encoding을 세가지 정도있는데
+파일을 전송 할 때는 현재 enctype이 정형화 되어있으니 외우자 // 보통 파일을 전송할때에만 적고 아니면 안적어도 ok-->
+<form action="{% url 'new' %}" method = "post" enctype="multipart/form-data">
+    <!-- csrf는 post 방식을 사용하더라도 컴퓨터에 들어와 정보를 탈취할 수 있는데 이것을 막기위한 보안,, 
+    장고에서는 form 태그를 쓸때 csrf 토큰이 필수이다. -->
+    {% csrf_token %}
+    <!-- name은 view에서 받아오기 위함 value는 비워두어도 ok -->
+    <input type="file" name="image" value="">
+    <br/>
+    <textarea name="content" rows = "8" cols="50"></textarea>
+    <br/>
+    <input type="submit" value = "글쓰기">
+</form>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+<!-- base.html을 상속받는다는말 과 static -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 center-align">
+            <!-- post object list in reverse order 원래는 최신글이 가장 아래에 오는데 최신글을 가장 위에 올 수 있도록 reversed를 적어준다-->
+            {% for post in posts reversed %}
+            <br>
+            <div class="card">
+                <!-- Header -->
+                <div class="card-body">
+                    <!-- img src에 static후 경로 적어주기 -->
+                    <img alt="Lionstagram_logo" src="{% static 'page/images/lion_profile.jpg' %}" width="25" height="25"
+                        class="d-inline-block align-top"><strong style="padding-left:10px;">
+                        {{ post.author }}</strong>
+                    <hr>
+                </div>
+
+                <!-- Image -->
+                <a href="{% url 'detail' post.id %}">
+                    <!-- 이미지가 없을때는 이 지정한 static 파일을, 업로드한게 있으면 그 파일을  -->
+                    {% if post.image %}
+                    <img src = "{{ post.image.url }}" class = "card-img-top" alt="picture">
+                    {% else %}            
+                    <img src="{% static 'page/images/thumbnail.jpg' %}" class="card-img-top" alt="pic">
+                    {% endif %}
+                </a>
+                <!-- Post -->
+                <div class="card-body">
+                    <hr>
+                    <p class="card-text"><strong>{{ post.author }}</strong>{{ post.summary }}</p>
+                    <p><small class="card-text" style="color:gray;">
+                            {{ post.pub_date }}</small></p>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
